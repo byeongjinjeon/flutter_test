@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test1/BaseAppBar.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 import 'route.dart';
+import 'naver.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,6 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
           Navigator.pushNamed(context, '/homepage');
         },
       ),
+      PlutoMenuItem(
+        title: 'naver',
+        onTap: () {
+          Navigator.pushNamed(context, '/naver');
+        },
+      ),
     ];
   }
 
@@ -100,33 +107,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: BaseAppBar(),
-      body: ListView(
-        children: [
-          PlutoMenuBar(
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            borderColor: const Color.fromARGB(255, 255, 255, 255),
-            itemStyle: const PlutoMenuItemStyle(
-              activatedColor: Color.fromARGB(255, 0, 0, 0),
-              indicatorColor: Colors.deepOrange,
-              textStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-              iconColor: Color.fromARGB(255, 0, 0, 0),
-              moreIconColor: Color.fromARGB(255, 0, 0, 0),
-            ),
-            mode: PlutoMenuBarMode.hover,
-            menus: test_menus,
-          ),
-          postContainer(postList),
-        ],
-      ),
+    return Naver(
+      // return Scaffold(
+      // resizeToAvoidBottomInset: false,
+      // appBar: BaseAppBar(),
+      // body: ListView(
+      //   children: [
+      //     PlutoMenuBar(
+      //       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      //       borderColor: const Color.fromARGB(255, 255, 255, 255),
+      //       itemStyle: const PlutoMenuItemStyle(
+      //         activatedColor: Color.fromARGB(255, 0, 0, 0),
+      //         indicatorColor: Colors.deepOrange,
+      //         textStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+      //         iconColor: Color.fromARGB(255, 0, 0, 0),
+      //         moreIconColor: Color.fromARGB(255, 0, 0, 0),
+      //       ),
+      //       mode: PlutoMenuBarMode.hover,
+      //       menus: test_menus,
+      //     ),
+      //     postContainer(postList),
+      //   ],
+      // ),
     );
   }
 
   Widget postContainer(List<Map<String, String>> postList) {
     return Container(
-      height: 600, // 고정된 높이 설정
+      height: 500, // 고정된 높이 설정
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

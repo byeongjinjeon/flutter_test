@@ -5,6 +5,7 @@ import "package:test1/carousel.dart";
 import "package:test1/timeline.dart";
 import 'package:test1/gridview_wedget.dart';
 import 'home_page.dart';
+import 'naver.dart';
 
 mixin RouteName {
   static const test = '/test';
@@ -13,6 +14,7 @@ mixin RouteName {
   static const carousel = '/carousel';
   static const timeline = '/timeline';
   static const homepage = '/homepage';
+  static const naver = '/naver';
 }
 
 mixin Routes {
@@ -23,5 +25,6 @@ mixin Routes {
     RouteName.carousel: (ctx) => const Carousel(),
     RouteName.timeline: (ctx) => const VideoTimelineScreen(),
     RouteName.homepage: (ctx) => HomePage(),
+    RouteName.naver: (ctx) => Naver(),
   };
 }
