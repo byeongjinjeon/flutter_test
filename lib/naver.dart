@@ -11,44 +11,123 @@ class Naver extends StatefulWidget {
 }
 
 class _NaverState extends State<Naver> {
-  final List<Widget> list = [
-    TilButton(title: 'GridView', routeName: '/gridview2'),
-  ];
+  final PageController _pageController = PageController(initialPage: 0);
+
+  void goToPage(int pageNum, PageController pageController) {
+    pageController.animateToPage(
+      pageNum,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
 
   List<PlutoMenuItem> test_menus(BuildContext context) {
     return [
-      PlutoMenuItem(title: '뉴스'),
-      PlutoMenuItem(title: '금융'),
-      PlutoMenuItem(title: '스포츠'),
-      PlutoMenuItem(title: '연예'),
-      PlutoMenuItem(title: '쇼핑'),
-      PlutoMenuItem(title: '메일'),
-      PlutoMenuItem(title: '카페'),
-      PlutoMenuItem(title: '블로그'),
-      PlutoMenuItem(title: '지식iN'),
-      // PlutoMenuItem(
-      //   title: 'naver',
-      //   onTap: () {
-      //     Navigator.pushNamed(context, '/naver');
-      //   },
-      // ),
+      PlutoMenuItem(
+        title: '뉴스',
+        id: 'Select1',
+        onTap: () => goToPage(0, _pageController),
+      ),
+      PlutoMenuItem(
+        title: '금융',
+        id: 'Select2',
+        onTap: () => goToPage(1, _pageController),
+      ),
+      PlutoMenuItem(
+        title: '스포츠',
+        id: 'Select3',
+        onTap: () => goToPage(2, _pageController),
+      ),
+      PlutoMenuItem(
+        title: '연예',
+        id: 'Select4',
+        onTap: () => goToPage(3, _pageController),
+      ),
+      PlutoMenuItem(
+        title: '쇼핑',
+        id: 'Select5',
+        onTap: () => goToPage(4, _pageController),
+      ),
+      PlutoMenuItem(
+        title: '메일',
+        id: 'Select6',
+        onTap: () => goToPage(5, _pageController),
+      ),
     ];
   }
 
-  int _itemCount = 4;
-  final PageController _pageController = PageController();
+  Widget _pageView() {
+    return PageView(
+      controller: _pageController,
+      scrollDirection: Axis.horizontal,
+      reverse: false,
+      onPageChanged: (index) {
+        print('test $index');
+      },
 
-  void _onPageChanged(int page) {
-    _pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 150),
-      curve: Curves.linear,
+      children: [
+        Container(
+          color: const Color.fromARGB(255, 255, 233, 231),
+          child: Text(
+            'Page 1',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.green,
+          child: Text(
+            'Page 2',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.orange,
+          child: Text(
+            'Page 3',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.orange,
+          child: Text(
+            'Page 4',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.orange,
+          child: Text(
+            'Page 5',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+        Container(
+          color: Colors.orange,
+          child: Text(
+            'Page 6',
+            style: TextStyle(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontSize: 24,
+            ),
+          ),
+        ),
+      ],
     );
-
-    if (page == _itemCount - 1) {
-      _itemCount = _itemCount + 4;
-      setState(() {});
-    }
   }
 
   @override
@@ -109,27 +188,13 @@ class _NaverState extends State<Naver> {
               textStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
               iconColor: Color.fromARGB(255, 0, 0, 0),
               moreIconColor: Color.fromARGB(255, 0, 0, 0),
+              enableSelectedTopMenu: true,
             ),
+
             mode: PlutoMenuBarMode.hover,
             menus: test_menus(context),
           ),
-          Expanded(
-            child: PageView.builder(
-              itemCount: _itemCount,
-              onPageChanged: _onPageChanged,
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              itemBuilder:
-                  (context, index) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage("https://picsum.photos/600/1000"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-            ),
-          ),
+          Expanded(child: _pageView()),
         ],
       ),
     );

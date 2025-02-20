@@ -17,6 +17,7 @@ dependencies:
   backdrop: ^0.9.1
   pluto_menu_bar: ^3.0.1
   fan_carousel_image_slider: ^1.3.0
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:
