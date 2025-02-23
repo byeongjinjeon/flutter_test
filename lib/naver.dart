@@ -3,6 +3,8 @@ import '/til_button.dart';
 import 'package:test1/gridview_wedget.dart';
 import 'package:pluto_menu_bar/pluto_menu_bar.dart';
 
+import "package:test1/GridViewPage.dart";
+
 class Naver extends StatefulWidget {
   Naver({Key? key}) : super(key: key);
 
@@ -12,122 +14,78 @@ class Naver extends StatefulWidget {
 
 class _NaverState extends State<Naver> {
   final PageController _pageController = PageController(initialPage: 0);
+  int _currentPageIndex = 0; // 현재 활성화된 페이지 인덱스
 
-  void goToPage(int pageNum, PageController pageController) {
-    pageController.animateToPage(
+  late List<PlutoMenuItem> menus;
+
+  @override
+  void initState() {
+    super.initState();
+    menus = _buildMenus();
+  }
+
+  // 페이지 이동 함수
+  void goToPage(int pageNum) {
+    setState(() {
+      _currentPageIndex = pageNum; // 현재 페이지 인덱스 업데이트
+    });
+    _pageController.animateToPage(
       pageNum,
       duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
   }
 
-  List<PlutoMenuItem> test_menus(BuildContext context) {
+  // PlutoMenuBar 메뉴 생성
+  List<PlutoMenuItem> _buildMenus() {
     return [
-      PlutoMenuItem(
-        title: '뉴스',
-        id: 'Select1',
-        onTap: () => goToPage(0, _pageController),
-      ),
-      PlutoMenuItem(
-        title: '금융',
-        id: 'Select2',
-        onTap: () => goToPage(1, _pageController),
-      ),
-      PlutoMenuItem(
-        title: '스포츠',
-        id: 'Select3',
-        onTap: () => goToPage(2, _pageController),
-      ),
-      PlutoMenuItem(
-        title: '연예',
-        id: 'Select4',
-        onTap: () => goToPage(3, _pageController),
-      ),
-      PlutoMenuItem(
-        title: '쇼핑',
-        id: 'Select5',
-        onTap: () => goToPage(4, _pageController),
-      ),
-      PlutoMenuItem(
-        title: '메일',
-        id: 'Select6',
-        onTap: () => goToPage(5, _pageController),
-      ),
+      PlutoMenuItem(title: '뉴스', id: 'Select0', onTap: () => _onMenuTap(0)),
+      PlutoMenuItem(title: '금융', id: 'Select1', onTap: () => _onMenuTap(1)),
+      PlutoMenuItem(title: '스포츠', id: 'Select2', onTap: () => _onMenuTap(2)),
+      PlutoMenuItem(title: '연예', id: 'Select3', onTap: () => _onMenuTap(3)),
+      PlutoMenuItem(title: '쇼핑', id: 'Select4', onTap: () => _onMenuTap(4)),
+      PlutoMenuItem(title: '메일', id: 'Select5', onTap: () => _onMenuTap(5)),
     ];
   }
 
+  // PageView 위젯
   Widget _pageView() {
     return PageView(
       controller: _pageController,
-      scrollDirection: Axis.horizontal,
-      reverse: false,
-      onPageChanged: (index) {
-        print('test $index');
-      },
-
+      onPageChanged: _onPageChanged,
       children: [
         Container(
           color: const Color.fromARGB(255, 255, 233, 231),
-          child: Text(
-            'Page 1',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
+          child: Gridviewpage(),
         ),
-        Container(
-          color: Colors.green,
-          child: Text(
-            'Page 2',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
-        ),
+        Container(color: Colors.green, child: const Center(child: Text('금융'))),
         Container(
           color: Colors.orange,
-          child: Text(
-            'Page 3',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
+          child: const Center(child: Text('스포츠')),
         ),
-        Container(
-          color: Colors.orange,
-          child: Text(
-            'Page 4',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.orange,
-          child: Text(
-            'Page 5',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.orange,
-          child: Text(
-            'Page 6',
-            style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 24,
-            ),
-          ),
-        ),
+        Container(color: Colors.blue, child: const Center(child: Text('연예'))),
+        Container(color: Colors.purple, child: const Center(child: Text('쇼핑'))),
+        Container(color: Colors.yellow, child: const Center(child: Text('메일'))),
       ],
     );
+  }
+
+  void _onMenuTap(int pageIndex) {
+    setState(() {
+      _currentPageIndex = pageIndex; // 현재 선택된 메뉴 업데이트
+    });
+    print('change : $pageIndex');
+    _pageController.animateToPage(
+      pageIndex,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _onPageChanged(int pageIndex) {
+    setState(() {
+      _currentPageIndex = pageIndex; // 현재 페이지 인덱스 업데이트
+    });
   }
 
   @override
@@ -182,17 +140,14 @@ class _NaverState extends State<Naver> {
           PlutoMenuBar(
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
             borderColor: const Color.fromARGB(255, 255, 255, 255),
-            itemStyle: const PlutoMenuItemStyle(
-              activatedColor: Color.fromARGB(255, 0, 0, 0),
-              indicatorColor: Colors.deepOrange,
-              textStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-              iconColor: Color.fromARGB(255, 0, 0, 0),
-              moreIconColor: Color.fromARGB(255, 0, 0, 0),
+            itemStyle: PlutoMenuItemStyle(
               enableSelectedTopMenu: true,
+              activatedColor: Colors.deepOrange, // 활성화된 메뉴 색상
+              textStyle: const TextStyle(color: Colors.black), // 기본 텍스트 색상
             ),
 
-            mode: PlutoMenuBarMode.hover,
-            menus: test_menus(context),
+            mode: PlutoMenuBarMode.tap,
+            menus: _buildMenus(),
           ),
           Expanded(child: _pageView()),
         ],
